@@ -13,6 +13,7 @@ import AppContainer from './services/AppContainer';
 import WebsocketContainer from './services/WebsocketContainer';
 import PageCreateButton from './components/Navbar/PageCreateButton';
 import PageCreateModal from './components/PageCreateModal';
+import SearchButton from './components/Navbar/SearchButton';
 
 const logger = loggerFactory('growi:app');
 
@@ -53,6 +54,7 @@ const componentMappings = {
   'grw-sidebar-wrapper': <Sidebar />,
 
   'staff-credit': <StaffCredit />,
+  'search-button': <SearchButton />,
 };
 
 export { appContainer, componentMappings };
