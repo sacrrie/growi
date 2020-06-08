@@ -2,15 +2,21 @@ import React from 'react';
 
 import { withTranslation } from 'react-i18next';
 
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { createSubscribedElement } from './UnstatedUtils';
 
 import AppContainer from '../services/AppContainer';
+
 
 const ShareLinkList = (props) => {
 
   function getShareLinkList() {
     return ['Replace with API'];
   }
+
+  const showCopyed = () => {
+    console.log('Copied');
+  };
 
   return (
     <div className="table-responsive">
@@ -28,7 +34,11 @@ const ShareLinkList = (props) => {
             getShareLinkList().map((shareLink) => {
               return (
                 <>
-                  <td>{ shareLink }</td>
+                  <td>
+                    <CopyToClipboard text={shareLink} onCopy={showCopyed}>
+                      <span type="button">{ shareLink }</span>
+                    </CopyToClipboard>
+                  </td>
                   <td>{ shareLink }</td>
                   <td>{ shareLink }</td>
                   <td>{ shareLink }</td>
