@@ -1,21 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { withTranslation } from 'react-i18next';
 
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { Tooltip } from 'reactstrap';
 import { createSubscribedElement } from './UnstatedUtils';
 
 import AppContainer from '../services/AppContainer';
 
 
 const ShareLinkList = (props) => {
+  const [tooltipOpen, setToolTipOpen] = useState(false);
 
   function getShareLinkList() {
     return ['Replace with API'];
   }
 
-  const showCopyed = () => {
-    console.log('Copied');
+  const showCopyedToolTip = () => {
+    setToolTipOpen(true);
+    setTimeout(() => {
+      setToolTipOpen(false);
+    }, 1000);
   };
 
   return (
@@ -35,10 +40,13 @@ const ShareLinkList = (props) => {
               return (
                 <>
                   <td>
-                    <CopyToClipboard text={shareLink} onCopy={showCopyed}>
+                    <CopyToClipboard text={shareLink} onCopy={showCopyedToolTip} id="copyShareLink">
                       <span type="button">{ shareLink }</span>
                     </CopyToClipboard>
                   </td>
+                  <Tooltip placement="bottom" isOpen={tooltipOpen} target="copyShareLink" fade={false}>
+                    copied!
+                  </Tooltip>
                   <td>{ shareLink }</td>
                   <td>{ shareLink }</td>
                   <td>{ shareLink }</td>
