@@ -24,6 +24,7 @@ export default class LinkEditModal extends React.PureComponent {
     this.handleChangeLabelInput = this.handleChangeLabelInput.bind(this);
     this.handleSelecteLinkerType = this.handleSelecteLinkerType.bind(this);
     this.generateLinker = this.generateLinker.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   show() {
@@ -65,6 +66,9 @@ export default class LinkEditModal extends React.PureComponent {
     return linker;
   }
 
+  this.handleSubmit() {
+    // path を挿入
+  }
 
   handleSelecteLinkerType(e) {
     this.setState({ linkerType: e.currentTarget.name });
@@ -169,7 +173,7 @@ export default class LinkEditModal extends React.PureComponent {
                           Use relative path
                         </label>
                       </div>
-                      <button type="button" className="btn btn-primary ml-auto">
+                      <button type="button" className="btn btn-primary ml-auto" onClick={this.handleSubmit}>
                         Done
                       </button>
                     </div>
