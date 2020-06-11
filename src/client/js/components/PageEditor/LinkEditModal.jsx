@@ -9,7 +9,6 @@ import PageContainer from '../../services/PageContainer';
 import { withUnstatedContainers } from '../UnstatedUtils';
 
 class LinkEditModal extends React.PureComponent {
-
   constructor(props) {
     super(props);
 
@@ -25,7 +24,6 @@ class LinkEditModal extends React.PureComponent {
     this.toggleIsUseRelativePath = this.toggleIsUseRelativePath.bind(this);
     this.handleChangeLabelInput = this.handleChangeLabelInput.bind(this);
     this.handleSelecteLinkerType = this.handleSelecteLinkerType.bind(this);
-    this.generateLinker = this.generateLinker.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.showLog = this.showLog.bind(this);
   }
@@ -63,10 +61,6 @@ class LinkEditModal extends React.PureComponent {
     console.log(this.state.inputValue);
   }
 
-  handleSelecteLinkerType(e) {
-    this.setState({ linkerType: e.currentTarget.name });
-  }
-
   handleChangeLinkInput(linkValue) {
     this.setState({ inputValue: linkValue });
   }
@@ -80,6 +74,10 @@ class LinkEditModal extends React.PureComponent {
       this.toggleIsUseRelativePath();
     }
     this.setState({ linkerType });
+  }
+
+  handleSubmit() {
+    this.hide();
   }
 
   render() {
@@ -202,7 +200,6 @@ class LinkEditModal extends React.PureComponent {
       </Modal>
     );
   }
-
 }
 
 LinkEditModal.propTypes = {
