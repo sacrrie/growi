@@ -1,12 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-import {
-  Modal, ModalHeader, ModalBody,
-} from 'reactstrap';
+import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 
 import PublishLink from './PublishLink';
+import PageContainer from '../../services/PageContainer';
 
-export default class LinkEditModal extends React.PureComponent {
+import { withUnstatedContainers } from '../UnstatedUtils';
+
+class LinkEditModal extends React.PureComponent {
 
   constructor(props) {
     super(props);
@@ -14,8 +16,8 @@ export default class LinkEditModal extends React.PureComponent {
     this.state = {
       show: false,
       isUseRelativePath: false,
-      link: '/hoge/fuga/1234', // [TODO] GW-2793 の変更を適用する
-      label: '',
+      inputValue: '',
+      labelInputValue: '',
       linkerType: 'pukiwikiLink',
     };
 
@@ -25,6 +27,7 @@ export default class LinkEditModal extends React.PureComponent {
     this.handleSelecteLinkerType = this.handleSelecteLinkerType.bind(this);
     this.generateLinker = this.generateLinker.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.showLog = this.showLog.bind(this);
   }
 
   show() {
@@ -41,40 +44,10 @@ export default class LinkEditModal extends React.PureComponent {
     });
   }
 
-  handleChangeLabelInput(e) {
-    const label = e.target.value;
-    // const linkerType = e.target.id;
-    // const linker = this.generateLinker(label, linkerType);
-    // this.setState({ label, linker });
-    this.setState({ label });
-  }
-
-  generateLinker() {
-    let linker;
-    const label = this.state.label;
-    const type = this.state.linkerType;
-    if (type === 'pukiwikiLink') {
-      linker = `[[${label}]]`;
-    }
-    if (type === 'growiLink') {
-      linker = `growi ${label}`;
-    }
-    if (type === 'MDLink') {
-      linker = `md like ${label}`;
-    }
-
-    return linker;
-  }
-
-  this.handleSubmit() {
-    // path を挿入
-  }
-
-  handleSelecteLinkerType(e) {
-    this.setState({ linkerType: e.currentTarget.name });
-  }
-
   toggleIsUseRelativePath() {
+    if (this.state.linkerType === 'growiLink') {
+      return;
+    }
     this.setState({ isUseRelativePath: !this.state.isUseRelativePath });
   }
 
@@ -86,11 +59,35 @@ export default class LinkEditModal extends React.PureComponent {
     // TODO GW-2659
   }
 
+  showLog() {
+    console.log(this.state.inputValue);
+  }
+
+  handleSelecteLinkerType(e) {
+    this.setState({ linkerType: e.currentTarget.name });
+  }
+
+  handleChangeLinkInput(linkValue) {
+    this.setState({ inputValue: linkValue });
+  }
+
+  handleChangeLabelInput(labelValue) {
+    this.setState({ labelInputValue: labelValue });
+  }
+
+  handleSelecteLinkerType(linkerType) {
+    if (this.state.isUseRelativePath && linkerType === 'growiLink') {
+      this.toggleIsUseRelativePath();
+    }
+    this.setState({ linkerType });
+  }
+
   render() {
+    const { pageContainer } = this.props;
     return (
       <Modal isOpen={this.state.show} toggle={this.cancel} size="lg">
         <ModalHeader tag="h4" toggle={this.cancel} className="bg-primary text-light">
-          Edit Table
+          Edit Links
         </ModalHeader>
 
         <ModalBody className="container">
@@ -103,12 +100,13 @@ export default class LinkEditModal extends React.PureComponent {
                     className="form-control"
                     id="linkInput"
                     type="text"
-                    placeholder="/foo/bar/31536000"
+                    placeholder="URL or page path"
                     aria-describedby="button-addon"
-                    value={this.state.link}
+                    value={this.state.inputValue}
+                    onChange={e => this.handleChangeLinkInput(e.target.value)}
                   />
                   <div className="input-group-append">
-                    <button type="button" id="button-addon" className="btn btn-secondary">
+                    <button type="button" id="button-addon" className="btn btn-secondary" onClick={this.showLog}>
                       Preview
                     </button>
                   </div>
@@ -123,17 +121,31 @@ export default class LinkEditModal extends React.PureComponent {
               <div className="link-edit-tabs">
                 <ul className="nav nav-tabs" role="tabist">
                   <li className="nav-item">
-                    <a className="nav-link active" name="pukiwikiLink" onClick={this.handleSelecteLinkerType} href="#Pukiwiki" role="tab" data-toggle="tab">
+                    <a
+                      className="nav-link active"
+                      name="pukiwikiLink"
+                      onClick={e => this.handleSelecteLinkerType(e.target.name)}
+                      href="#Pukiwiki"
+                      role="tab"
+                      data-toggle="tab"
+                    >
                       Pukiwiki
                     </a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" name="growiLink" onClick={this.handleSelecteLinkerType} href="#Growi" role="tab" data-toggle="tab">
+                    <a
+                      className="nav-link"
+                      name="growiLink"
+                      onClick={e => this.handleSelecteLinkerType(e.target.name)}
+                      href="#Growi"
+                      role="tab"
+                      data-toggle="tab"
+                    >
                       Growi Original
                     </a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" name="MDLink" onClick={this.handleSelecteLinkerType} href="#MD" role="tab" data-toggle="tab">
+                    <a className="nav-link" name="mdLink" onClick={e => this.handleSelecteLinkerType(e.target.name)} href="#MD" role="tab" data-toggle="tab">
                       Markdown
                     </a>
                   </li>
@@ -142,22 +154,21 @@ export default class LinkEditModal extends React.PureComponent {
                 <div className="tab-content pt-3">
                   <form className="form-group">
                     <div className="form-group">
-                      <label htmlFor="pukiwikiLink">Label</label>
+                      <label htmlFor="label">Label</label>
                       <input
                         type="text"
                         className="form-control"
-                        id="pukiwikiLink"
-                        value={this.state.label}
-                        onChange={this.handleChangeLabelInput}
+                        id="label"
+                        value={this.state.labelInputValue}
+                        onChange={e => this.handleChangeLabelInput(e.target.value)}
                         disabled={this.state.linkerType === 'growiLink'}
                       />
-                    </div>
-                    <div className="form-group">
                       <PublishLink
-                        link={this.state.link}
-                        label={this.state.label}
+                        link={this.state.inputValue}
+                        label={this.state.labelInputValue}
                         type={this.state.linkerType}
                         isUseRelativePath={this.state.isUseRelativePath}
+                        currentPagePath={pageContainer.state.path}
                       />
                     </div>
                     <div className="form-inline">
@@ -193,3 +204,14 @@ export default class LinkEditModal extends React.PureComponent {
   }
 
 }
+
+LinkEditModal.propTypes = {
+  pageContainer: PropTypes.instanceOf(PageContainer).isRequired,
+};
+
+/**
+ * Wrapper component for using unstated
+ */
+const LinkEditModalWrapper = withUnstatedContainers(LinkEditModal, [PageContainer]);
+
+export default LinkEditModalWrapper;
