@@ -28,8 +28,9 @@ class LinkEditModal extends React.PureComponent {
     this.showLog = this.showLog.bind(this);
   }
 
-  show() {
-    this.setState({ show: true });
+  show(editor) {
+    const selection = editor.getDoc().getSelection();
+    this.setState({ show: true, labelInputValue: selection });
   }
 
   cancel() {

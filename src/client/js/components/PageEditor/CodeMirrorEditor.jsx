@@ -653,7 +653,7 @@ export default class CodeMirrorEditor extends AbstractEditor {
   }
 
   showLinkEditHandler() {
-    this.linkEditModal.current.show();
+    this.linkEditModal.current.show(this.getCodeMirror());
   }
 
   showHandsonTableHandler() {
