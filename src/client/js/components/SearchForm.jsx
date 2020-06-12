@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
 import { withUnstatedContainers } from './UnstatedUtils';
 import AppContainer from '../services/AppContainer';
 
@@ -147,4 +148,4 @@ SearchForm.defaultProps = {
   onInputChange: () => {},
 };
 
-export default SearchFormWrapper;
+export default withTranslation()(SearchFormWrapper);

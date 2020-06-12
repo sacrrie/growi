@@ -1,8 +1,11 @@
 import React from 'react';
-
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
+import { withTranslation } from 'react-i18next';
 
-export default class LinkEditModal extends React.PureComponent {
+import SearchForm from '../SearchForm';
+
+
+class LinkEditModal extends React.PureComponent {
 
   constructor(props) {
     super(props);
@@ -63,8 +66,14 @@ export default class LinkEditModal extends React.PureComponent {
           <div className="row">
             <div className="col">
               <div className="form-gorup my-3">
+
                 <label htmlFor="linkInput">Link</label>
                 <div className="input-group">
+                  <SearchForm
+                    onSubmit={this.search}
+                    keyword={this.state.searchedKeyword}
+                    onInputChange={this.onInputChange}
+                  />
                   <input
                     className="form-control"
                     id="linkInput"
@@ -184,3 +193,5 @@ export default class LinkEditModal extends React.PureComponent {
   }
 
 }
+
+export default withTranslation()(LinkEditModal);
