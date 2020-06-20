@@ -10,6 +10,7 @@ import PageContainer from '../../services/PageContainer';
 import OutsideShareLinkModal from '../OutsideShareLinkModal';
 
 import { toastError } from '../../util/apiNotification';
+import ArchiveCreateModal from '../ArchiveCreateModal';
 
 
 const PageShareManagement = (props) => {
@@ -19,6 +20,8 @@ const PageShareManagement = (props) => {
 
   const [isOutsideShareLinkModalShown, setIsOutsideShareLinkModalShown] = useState(false);
 
+  const [isArchiveCreateModalShown, setIsArchiveCreateModalShown] = useState(false);
+
   function openOutsideShareLinkModalHandler() {
     setIsOutsideShareLinkModalShown(true);
   }
@@ -27,7 +30,13 @@ const PageShareManagement = (props) => {
     setIsOutsideShareLinkModalShown(false);
   }
 
+  function openArchiveModalHandler() {
+    setIsArchiveCreateModalShown(true);
+  }
 
+  function closeArchiveCreateModalHandler() {
+    setIsArchiveCreateModalShown(false);
+  }
   async function getExportPageFile(type) {
     const pageId = pageContainer.state.pageId;
     try {
@@ -54,6 +63,11 @@ const PageShareManagement = (props) => {
         <OutsideShareLinkModal
           isOpen={isOutsideShareLinkModalShown}
           onClose={closeOutsideShareLinkModalHandler}
+        />
+
+        <ArchiveCreateModal
+          isOpen={isArchiveCreateModalShown}
+          onClose={closeArchiveCreateModalHandler}
         />
       </>
     );
@@ -105,6 +119,10 @@ const PageShareManagement = (props) => {
         <button type="button" className="dropdown-item" onClick={() => { exportPageHundler('pdf') }}>
           <span>{t('export_bulk.export_page_pdf')}</span>
         </button>
+        <button className="dropdown-item" type="button" onClick={openArchiveModalHandler}>
+          <i className="icon-fw">{t('Create Archive Page')}</i>
+        </button>
+
       </div>
       {renderModals()}
     </>
