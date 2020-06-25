@@ -183,5 +183,49 @@ module.exports = (crowi) => {
     return res.apiv3({ result });
   });
 
+  /**
+   * @swagger
+   *
+   *    /page/archive:
+   *      get:
+   *        tags: [Page]
+   *        summary: /page/archive
+   *        description: create page archive
+   *        requestBody:
+   *          content:
+   *            application/json:
+   *              schema:
+   *                properties:
+   *                  targetPagePath:
+   *                    type: string
+   *        responses:
+   *          200:
+   *            description: create page archive
+   *            content:
+   *              application/json:
+   *                schema:
+   *                  $ref: '#/components/schemas/Page'
+   */
+  router.get('/archive', accessTokenParser, loginRequired, async(req, res) => {
+    console.log('aaaaa');
+    const fs = require('fs');
+
+    const text = 'テスト出力';
+
+    // 非同期で行う場合
+    // fs.writeFile('out.txt', text, (err, data) => {
+    //   if (err) console.log(err);
+    //   else console.log('write end');
+    // });
+    res.set({ 'Content-disposition': 'attachment; filename=out.txt' });
+    res.set({ 'Content-type': 'text/plain' });
+    res.download('out.txt', (err) => {
+      if (err) {
+        res.sendStatus(err.status);
+      }
+    });
+    // res.send('out.txt');
+  });
+
   return router;
 };
