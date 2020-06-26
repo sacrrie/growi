@@ -46,8 +46,8 @@ const ArchiveCreateModal = (props) => {
   async function done() {
 
     try {
-      await appContainer.apiv3Post('/page/archive', { bool: true, pageId: '1' });
-      toastSuccess('Rebuildin is requested');
+      await appContainer.apiv3Post('/page/archive', { hoge: 200 });
+      toastSuccess('Create Archives');
     }
     catch (e) {
       toastError(e);
