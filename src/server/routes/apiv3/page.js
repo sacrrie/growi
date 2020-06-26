@@ -183,5 +183,65 @@ module.exports = (crowi) => {
     return res.apiv3({ result });
   });
 
+  /**
+   * @swagger
+   *
+   *    /page/archive:
+   *      put:
+   *        tags: [Page]
+   *        summary: /page/archive
+   *        description: Update liked status
+   *        operationId: updateLikedStatus
+   *        requestBody:
+   *          content:
+   *            application/json:
+   *              schema:
+   *                $ref: '#/components/schemas/LikeParams'
+   *        responses:
+   *          200:
+   *            description: Succeeded to update liked status.
+   *            content:
+   *              application/json:
+   *                schema:
+   *                  $ref: '#/components/schemas/Page'
+   */
+  router.post('/archive', accessTokenParser, loginRequired, csrf, validator.likes, ApiV3FormValidator, async(req, res) => {
+    console.log('receive request');
+
+    const { pageId, bool } = req.body;
+
+    let page;
+    try {
+      page = await Page.findByIdAndViewer(pageId, req.user);
+      if (page == null) {
+        return res.apiv3Err(`Page '${pageId}' is not found or forbidden`);
+      }
+      if (bool) {
+        page = await page.like(req.user);
+      }
+      else {
+        page = await page.unlike(req.user);
+      }
+    }
+    catch (err) {
+      logger.error('update-like-failed', err);
+      return res.apiv3Err(err, 500);
+    }
+
+    try {
+      // global notification
+      await globalNotificationService.fire(GlobalNotificationSetting.EVENT.PAGE_LIKE, page, req.user);
+    }
+    catch (err) {
+      logger.error('Like notification failed', err);
+    }
+
+    const result = { page };
+    result.seenUser = page.seenUsers;
+    return res.apiv3({ result });
+
+  });
+
+
   return router;
 };
