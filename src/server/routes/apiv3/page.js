@@ -213,7 +213,6 @@ module.exports = (crowi) => {
   router.post('/archive', accessTokenParser, loginRequired, csrf, validator.archive, ApiV3FormValidator, async(req, res) => {
     const { hoge } = req.body;
 
-    console.log('receive request');
     console.log(hoge);
     return res.apiv3({});
   });
