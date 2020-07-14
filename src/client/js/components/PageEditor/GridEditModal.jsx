@@ -57,53 +57,56 @@ export default class GridEditModal extends React.PureComponent {
     this.cancel();
   }
 
-  showBgCols() {
-    const cols = [];
-    for (let i = 0; i < 12; i++) {
-      // [bg-light:TODO support dark mode by GW-3037]
-      cols.push(<div className="bg-light grid-bg-col col-1"></div>);
-    }
-    return cols;
-  }
-
-  showEditableCols() {
-    const cols = [];
-    for (let i = 0; i < 12; i++) {
-      // [bg-light:TODO support dark mode by GW-3037]
-      cols.push(<div className="bg-dark grid-bg-col col-1"></div>);
-    }
-    return cols;
-  }
-
   render() {
     return (
-      <Modal isOpen={this.state.show} toggle={this.cancel} size="xl">
+      <Modal isOpen={this.state.show} toggle={this.cancel} size="xl" className="grw-grid-edit-modal">
         <ModalHeader tag="h4" toggle={this.cancel} className="bg-primary text-light">
-          Edit Grid
+          Create Bootstrap 4 Grid
         </ModalHeader>
         <ModalBody>
           <div className="container">
             <div className="row">
-              <div className="col-3">
-                <h5>Phone</h5>
-                <div className="device-container"></div>
-                <h5>Tablet</h5>
-                <div className="device-container"></div>
-                <h5>Desktop</h5>
-                <div className="device-container"></div>
-                <h5>Large Desktop</h5>
-                <div className="device-container"></div>
+              <div className="col-5">
+                <label htmlFor="gridPattern">Grid Pattern :</label>
+                <div className="dropdown">
+                  <button
+                    className="btn btn-secondary dropdown-toggle"
+                    type="button"
+                    id="dropdownMenuButton"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                  Grid Pattern
+                  </button>
+                  <div className="dropdown-menu grid-division-menu" aria-labelledby="dropdownMenuButton">
+                    <GridDivisionMenu />
+                  </div>
+                </div>
               </div>
-              <div className="col-9">
-                <div className="row h-100">
-                  {this.showBgCols()}
-                </div>
-                <div className="row w-100 h-100 position-absolute grid-editable-row">
-                  {/* [Just an example to check if bg-cols and editable-cols fit] */}
-                  <div className="bg-dark grid-editable-col col-3"></div>
-                  <div className="bg-dark grid-editable-col col-5"></div>
-                  <div className="bg-dark grid-editable-col col-4"></div>
-                </div>
+              <div className="col-7">
+                <label>Break point by display size :</label>
+                <input type="radio" id="mobile" name="disSize" value="mobile" checked />
+                <label htmlFor="mobile"><i className="icon-screen-smartphone"></i> Mobile</label>
+                <input type="radio" id="tablet" name="disSize" value="tablet" />
+                <label htmlFor="tablet"><i className="icon-screen-tablet"></i> Tablet</label>
+                <input type="radio" id="desktop" name="disSize" value="desktop" />
+                <label htmlFor="desktop"><i className="icon-screen-desktop"></i> Desktop</label>
+                <input type="radio" id="none" name="disSize" value="none" />
+                <label htmlFor="none">None</label>
+              </div>
+              <h1 className="w-100">Preview</h1>
+              <div className="col-6 bg-dark">
+                <label><i className="icon-screen-desktop"></i> Desktop</label>
+                {/* desktop */}
+              </div>
+              <div className="col-4 bg-light">
+                <label><i className="icon-screen-tablet"></i> Tablet</label>
+                {/* tablet */}
+              </div>
+              <div className="col-2 bg-primary">
+                <label><i className="icon-screen-smartphone"></i> Mobile</label>
+                {/* mobile */}
               </div>
             </div>
           </div>
@@ -118,6 +121,46 @@ export default class GridEditModal extends React.PureComponent {
     );
   }
 
+}
+
+function GridDivisionMenu() {
+  return (
+    <div className="container">
+      <div className="row">
+        {/* TODO: add other grid patterns by GW-3189 */}
+        <div className="col-md-4 text-center">
+          <h6 className="dropdown-header">2分割</h6>
+          <a className="dropdown-item" href="#">
+            <div className="row">
+              <span className="bg-info col-6 border">6</span>
+              <span className="bg-info col-6 border">6</span>
+            </div>
+          </a>
+        </div>
+        <div className="col-md-4 text-center">
+          <h6 className="dropdown-header">3分割</h6>
+          <a className="dropdown-item" href="#">
+            <div className="row">
+              <span className="bg-info col-4 border">4</span>
+              <span className="bg-info col-4 border">4</span>
+              <span className="bg-info col-4 border">4</span>
+            </div>
+          </a>
+        </div>
+        <div className="col-md-4 text-center">
+          <h6 className="dropdown-header">4分割</h6>
+          <a className="dropdown-item" href="#">
+            <div className="row">
+              <span className="bg-info col-3 border">3</span>
+              <span className="bg-info col-3 border">3</span>
+              <span className="bg-info col-3 border">3</span>
+              <span className="bg-info col-3 border">3</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 GridEditModal.propTypes = {
