@@ -714,5 +714,16 @@
     "complete_to_install1":"GROWI のインストールが完了しました！管理者アカウントでログインしてください。",
     "complete_to_install2":"GROWI のインストールが完了しました！はじめに、このページで各種設定を確認してください。",
     "failed_to_create_admin_user":"管理ユーザーの作成に失敗しました。{{errMessage}}"
+  },
+  "grid":{
+    "Create Bootstrap 4 Grid": "Bootstrap 4 グリッドを作成",
+    "Grid Pattern": "グリッド　パターン",
+    "Break point by display size": "画面サイズよりの区切り",
+    "Mobile": "スマホ",
+    "Tablet": "タブレット",
+    "Desktop": "デスクトップ",
+    "None": "指定なし",
+    "Preview": "プレビュー"
   }
+
 }

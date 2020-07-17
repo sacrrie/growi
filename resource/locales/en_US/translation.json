@@ -722,5 +722,15 @@
     "complete_to_install1":"Complete to Install GROWI ! Please login as admin account.",
     "complete_to_install2":"Complete to Install GROWI ! Please check each settings on this page first.",
     "failed_to_create_admin_user":"Failed to create admin user. {{errMessage}}"
+  },
+  "grid":{
+    "Create Bootstrap 4 Grid": "Create Bootstrap 4 Grid",
+    "Grid Pattern": "Grid Pattern",
+    "Break point by display size": "Break point by display size",
+    "Mobile": "Mobile",
+    "Tablet": "Tablet",
+    "Desktop": "Desktop",
+    "None": "None",
+    "Preview": "Preview"
   }
 }

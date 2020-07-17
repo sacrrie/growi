@@ -729,5 +729,15 @@
 		"complete_to_install1": "完成安装GROWI！请以管理员帐户登录。",
 		"complete_to_install2": "完成安装GROWI！请先检查此页上的每个设置。",
 		"failed_to_create_admin_user": "无法创建管理用户。{{errMessage}"
-	}
+	},
+  "grid":{
+    "Create Bootstrap 4 Grid": "创建Bootstrap 4 网格",
+    "Grid Pattern": "网格样式",
+    "Break point by display size": "网格分割样式",
+    "Mobile": "手机",
+    "Tablet": "平板",
+    "Desktop": "电脑",
+    "None": "无",
+    "Preview": "预览"
+  }
 }
